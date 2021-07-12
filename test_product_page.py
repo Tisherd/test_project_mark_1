@@ -19,25 +19,37 @@ urls = [f"{product_base_link}/?promo=offer{no}" for no in range(10)]
     # page.should_be_message_about_adding()
     # page.should_be_message_basket_total()
 
-@pytest.mark.xfail(reason="parce qu we have element")
-def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
-    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+def test_guest_should_see_login_link_on_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
     page.open()
-    page.press_button_add_to_basket()
-    page.should_not_message_about_add()
+    page.should_be_login_link()
 
-
-def test_guest_cant_see_success_message(browser):
-    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+def test_guest_can_go_to_login_page_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
     page.open()
-    page.should_not_message_about_add()
+    page.go_to_login_page()
 
-@pytest.mark.xfail(reason="parce qu element not disappeared")
-def test_message_disappeared_after_adding_product_to_basket(browser):
-    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
-    page = ProductPage(browser, link)
-    page.open()
-    page.press_button_add_to_basket()
-    page.should_not_message_about_add_disappeared()
+# @pytest.mark.xfail(reason="parce qu we have element")
+# def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
+#     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+#     page = ProductPage(browser, link)
+#     page.open()
+#     page.press_button_add_to_basket()
+#     page.should_not_message_about_add()
+#
+#
+# def test_guest_cant_see_success_message(browser):
+#     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+#     page = ProductPage(browser, link)
+#     page.open()
+#     page.should_not_message_about_add()
+#
+# @pytest.mark.xfail(reason="parce qu element not disappeared")
+# def test_message_disappeared_after_adding_product_to_basket(browser):
+#     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+#     page = ProductPage(browser, link)
+#     page.open()
+#     page.press_button_add_to_basket()
+#     page.should_not_message_about_add_disappeared()
