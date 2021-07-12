@@ -5,7 +5,7 @@ import pytest
 import time
 
 
-@pytest.mark.need_review
+
 class TestUserAddToBasketFromProductPage():
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser):
@@ -27,6 +27,7 @@ class TestUserAddToBasketFromProductPage():
         page.press_button_add_to_basket()
         page.should_not_message_about_add()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_cart(self, browser):
         page = ProductPage(browser, self.link)
         page.open()
@@ -36,22 +37,18 @@ class TestUserAddToBasketFromProductPage():
 
 
 @pytest.mark.need_review
-@pytest.mark.parametrize('link', [0, 1, 2, 3, 4, 5, 6,
-                                  pytest.param(7, marks=pytest.mark.xfail),
-                                  8, 9])
-def test_guest_can_add_product_to_basket(browser, link):
-    link = f"http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer{link}"
+# @pytest.mark.parametrize('link', [0, 1, 2, 3, 4, 5, 6,
+#                                   pytest.param(7, marks=pytest.mark.xfail),
+#                                   8, 9])
+def test_guest_can_add_product_to_basket(browser):
+    link = f"http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0"
     page = ProductPage(browser, link)
     page.open()
-    time.sleep(1)
     page.press_button_add_to_basket()
-    time.sleep(1)
     page.solve_quiz_and_get_code()
-    time.sleep(1)
     page.should_be_message_about_adding()
-    time.sleep(1)
     page.should_be_message_basket_total()
-    time.sleep(1)
+
 
 
 def test_guest_should_see_login_link(browser):
