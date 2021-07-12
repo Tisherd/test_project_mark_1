@@ -3,7 +3,6 @@ from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.support import expected_conditions as EC
 from .locators import BasePageLocators
 import math
-import time
 
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -21,9 +20,13 @@ class BasePage():
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         link.click()
 
-    def go_to_backet_page(self):
-        link = self.browser.find_element(*BasePageLocators.BACKET_LINK)
+    def go_to_basket_page(self):
+        link = self.browser.find_element(*BasePageLocators.BASKET_LINK)
         link.click()
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
 
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
@@ -53,11 +56,9 @@ class BasePage():
     def solve_quiz_and_get_code(self):
         alert = self.browser.switch_to.alert
         x = alert.text.split(" ")[2]
-        print(x)
         answer = str(math.log(abs((12 * math.sin(float(x))))))
         alert.send_keys(answer)
         alert.accept()
-        time.sleep(1)
         try:
             alert = self.browser.switch_to.alert
             alert_text = alert.text
